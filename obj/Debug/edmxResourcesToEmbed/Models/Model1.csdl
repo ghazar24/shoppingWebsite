@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="shopping_dataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="table_admin">
+    <Key>
+      <PropertyRef Name="ad_id" />
+    </Key>
+    <Property Name="ad_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ad_userName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ad_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="table_category" Relationship="Self.FK_table_category_table_admin" FromRole="table_admin" ToRole="table_category" />
+  </EntityType>
+  <EntityType Name="table_category">
+    <Key>
+      <PropertyRef Name="cat_id" />
+    </Key>
+    <Property Name="cat_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="cat_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="cat_image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="cat_fk_ad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="table_admin" Relationship="Self.FK_table_category_table_admin" FromRole="table_category" ToRole="table_admin" />
+    <NavigationProperty Name="table_product" Relationship="Self.FK_table_product_table_category" FromRole="table_category" ToRole="table_product" />
+    <Property Name="cat_statu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="table_product">
+    <Key>
+      <PropertyRef Name="pro_id" />
+    </Key>
+    <Property Name="pro_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pro_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="pro_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="pro_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="pro_price" Type="Int32" />
+    <Property Name="pro_fk_user" Type="Int32" Nullable="false" />
+    <Property Name="pro_fk_cat" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="table_category" Relationship="Self.FK_table_product_table_category" FromRole="table_product" ToRole="table_category" />
+    <NavigationProperty Name="table_user" Relationship="Self.FK_table_product_table_user" FromRole="table_product" ToRole="table_user" />
+  </EntityType>
+  <EntityType Name="table_user">
+    <Key>
+      <PropertyRef Name="u_id" />
+    </Key>
+    <Property Name="u_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="u_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="u_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="u_contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="u_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="u_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="table_product" Relationship="Self.FK_table_product_table_user" FromRole="table_user" ToRole="table_product" />
+  </EntityType>
+  <Association Name="FK_table_category_table_admin">
+    <End Role="table_admin" Type="Self.table_admin" Multiplicity="1" />
+    <End Role="table_category" Type="Self.table_category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table_admin">
+        <PropertyRef Name="ad_id" />
+      </Principal>
+      <Dependent Role="table_category">
+        <PropertyRef Name="cat_fk_ad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_table_product_table_category">
+    <End Role="table_category" Type="Self.table_category" Multiplicity="1" />
+    <End Role="table_product" Type="Self.table_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table_category">
+        <PropertyRef Name="cat_id" />
+      </Principal>
+      <Dependent Role="table_product">
+        <PropertyRef Name="pro_fk_cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_table_product_table_user">
+    <End Role="table_user" Type="Self.table_user" Multiplicity="1" />
+    <End Role="table_product" Type="Self.table_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table_user">
+        <PropertyRef Name="u_id" />
+      </Principal>
+      <Dependent Role="table_product">
+        <PropertyRef Name="pro_fk_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="shopping_dataBaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="table_admin" EntityType="Self.table_admin" />
+    <EntitySet Name="table_category" EntityType="Self.table_category" />
+    <EntitySet Name="table_product" EntityType="Self.table_product" />
+    <EntitySet Name="table_user" EntityType="Self.table_user" />
+    <AssociationSet Name="FK_table_category_table_admin" Association="Self.FK_table_category_table_admin">
+      <End Role="table_admin" EntitySet="table_admin" />
+      <End Role="table_category" EntitySet="table_category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_table_product_table_category" Association="Self.FK_table_product_table_category">
+      <End Role="table_category" EntitySet="table_category" />
+      <End Role="table_product" EntitySet="table_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_table_product_table_user" Association="Self.FK_table_product_table_user">
+      <End Role="table_user" EntitySet="table_user" />
+      <End Role="table_product" EntitySet="table_product" />
+    </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="shopping_dataBaseModel.sysdiagram" />
+  </EntityContainer>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+</Schema>

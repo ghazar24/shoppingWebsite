@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e644faf3055249e4843f76e54b94f667" Name="Diagram1">
+        <EntityTypeShape EntityType="shopping_dataBaseModel.table_admin" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="shopping_dataBaseModel.table_category" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="shopping_dataBaseModel.table_product" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="shopping_dataBaseModel.table_user" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <AssociationConnector Association="shopping_dataBaseModel.FK_table_category_table_admin" ManuallyRouted="false" />
+        <AssociationConnector Association="shopping_dataBaseModel.FK_table_product_table_category" ManuallyRouted="false" />
+        <AssociationConnector Association="shopping_dataBaseModel.FK_table_product_table_user" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="shopping_dataBaseModel.sysdiagram" Width="1.5" PointX="5.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
